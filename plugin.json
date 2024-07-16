@@ -1,0 +1,36 @@
+{
+  "name": "plugin-sample-min",
+  "author": "frostime",
+  "url": "https://github.com/frostime/plugin-sample-min",
+  "version": "0.1.0",
+  "minAppVersion": "2.10.0",
+  "backends": [
+    "windows",
+    "linux",
+    "darwin"
+  ],
+  "frontends": [
+    "desktop",
+    "desktop-window"
+  ],
+  "displayName": {
+    "en_US": "Plugin sample minimum",
+    "zh_CN": "插件样例最简版"
+  },
+  "description": {
+    "en_US": "A minimum SiYuan plugin sample",
+    "zh_CN": "最简版本的思源插件样例"
+  },
+  "readme": {
+    "en_US": "README.md",
+    "zh_CN": "README_zh_CN.md"
+  },
+  "funding": {
+    "custom": [
+      "https://afdian.net/a/frostime"
+    ]
+  },
+  "keywords": [
+    "plugin", "sample", "插件样例"
+  ]
+}
