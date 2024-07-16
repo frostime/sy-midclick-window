@@ -103,11 +103,11 @@ class MidClickWindowPlugin extends siyuan.Plugin {
     async onload() {
         document.addEventListener('mousedown', onMouseClick);
 
-        let storage = await plugin.loadData(CONF_FILE);
+        let storage = await this.loadData(CONF_FILE);
 
         if (!storage) {
             storage = config;
-            plugin.saveData(CONF_FILE, config);
+            this.saveData(CONF_FILE, config);
         } else {
             config = {...config, ...storage};
         }
