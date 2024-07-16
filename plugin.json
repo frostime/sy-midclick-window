@@ -1,7 +1,7 @@
 {
   "name": "sy-midclick-window",
   "author": "frostime",
-  "url": "https://github.com/frostimesy-midclick-window",
+  "url": "https://github.com/frostime/sy-midclick-window",
   "version": "0.1.0",
   "minAppVersion": "2.10.0",
   "backends": [
