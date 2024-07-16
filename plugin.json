@@ -1,36 +1,28 @@
 {
-  "name": "plugin-sample-min",
+  "name": "sy-midclick-window",
   "author": "frostime",
-  "url": "https://github.com/frostime/plugin-sample-min",
+  "url": "https://github.com/frostimesy-midclick-window",
   "version": "0.1.0",
   "minAppVersion": "2.10.0",
   "backends": [
-    "windows",
-    "linux",
-    "darwin"
+    "all"
   ],
   "frontends": [
-    "desktop",
-    "desktop-window"
+    "all"
   ],
   "displayName": {
-    "en_US": "Plugin sample minimum",
-    "zh_CN": "插件样例最简版"
+    "en_US": "Middle Click Window",
+    "zh_CN": "中键小窗"
   },
   "description": {
-    "en_US": "A minimum SiYuan plugin sample",
-    "zh_CN": "最简版本的思源插件样例"
+    "en_US": "Middle-click on block icons to open block documents in a standalone mini-window.",
+    "zh_CN": "中键点击块标，在独立小窗口中打开块文档"
   },
   "readme": {
     "en_US": "README.md",
     "zh_CN": "README_zh_CN.md"
   },
-  "funding": {
-    "custom": [
-      "https://afdian.net/a/frostime"
-    ]
-  },
   "keywords": [
-    "plugin", "sample", "插件样例"
+    "plugin", "window", "小窗"
   ]
 }

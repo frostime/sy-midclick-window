@@ -6,12 +6,14 @@ import readline  from 'node:readline';
 //************************************ Write you dir here ************************************
 
 //Please write the "workspace/data/plugins" directory here
+//请在这里填写你的 "workspace/data/plugins" 目录
 let targetDir = '';
 //Like this
 // let targetDir = `H:\\SiYuanDevSpace\\data\\plugins`;
 //********************************************************************************************
 
 const log = (info) => console.log(`\x1B[36m%s\x1B[0m`, info);
+const warn = (info) => console.log(`\x1B[33m%s\x1B[0m`, info);
 const error = (info) => console.log(`\x1B[31m%s\x1B[0m`, info);
 
 let POST_HEADER = {
@@ -20,6 +22,7 @@ let POST_HEADER = {
 }
 
 async function myfetch(url, options) {
+    //使用 http 模块，从而兼容那些不支持 fetch 的 nodejs 版本
     return new Promise((resolve, reject) => {
         let req = http.request(url, options, (res) => {
             let data = '';
@@ -90,27 +93,26 @@ async function chooseTarget(workspaces) {
 log('>>> Try to visit constant "targetDir" in make_dev_link.js...')
 
 if (targetDir === '') {
-    log('>>> Constant "targetDir" is empty, try to get SiYuan directory automatically....')
-    let res = await getSiYuanDir();
-    
-    if (res === null || res === undefined || res.length === 0) {
-        log('>>> Can not get SiYuan directory automatically, try to visit environment variable "SIYUAN_PLUGIN_DIR"....');
+    log('>>> Constant "targetDir" is empty....');
 
-        // console.log(process.env)
-        let env = process.env?.SIYUAN_PLUGIN_DIR;
-        if (env !== undefined && env !== null && env !== '') {
-            targetDir = env;
-            log(`\tGot target directory from environment variable "SIYUAN_PLUGIN_DIR": ${targetDir}`);
-        } else {
-            error('\tCan not get SiYuan directory from environment variable "SIYUAN_PLUGIN_DIR", failed!');
-            process.exit(1);
-        }
+    // console.log(process.env)
+    let env = process.env?.SIYUAN_PLUGIN_DIR;
+    if (env !== undefined && env !== null && env !== '') {
+        targetDir = env;
+        log(`>> Got target directory from environment variable "SIYUAN_PLUGIN_DIR": ${targetDir}`);
     } else {
-        targetDir = await chooseTarget(res);
+        warn('>>> Can not get SiYuan directory from environment variable "SIYUAN_PLUGIN_DIR".!');
+        log('>> Try to get SiYuan directory automatically!');
+
+        let res = await getSiYuanDir();
+        if (res === null || res === undefined || res.length === 0) {
+            warn('>>> Can not get SiYuan directory automatically, all tries failed');
+            process.exit(1);
+        } else {
+            targetDir = await chooseTarget(res);
+        }
+        log(`>>> Successfully got target directory: ${targetDir}`);
     }
-
-
-    log(`>>> Successfully got target directory: ${targetDir}`);
 }
 
 //Check
@@ -140,7 +142,7 @@ if (!name || name === '') {
 }
 
 //dev directory
-const devDir = `${process.cwd()}/dev`;
+const devDir = `${process.cwd()}`;
 //mkdir if not exists
 if (!fs.existsSync(devDir)) {
     fs.mkdirSync(devDir);
@@ -160,6 +162,7 @@ function cmpPath(path1, path2) {
 }
 
 const targetPath = `${targetDir}/${name}`;
+//如果已经存在，就退出
 if (fs.existsSync(targetPath)) {
     let isSymbol = fs.lstatSync(targetPath).isSymbolicLink();
 
@@ -176,6 +179,8 @@ if (fs.existsSync(targetPath)) {
     }
 
 } else {
+    //创建软链接
     fs.symlinkSync(devDir, targetPath, 'junction');
     log(`Done! Created symlink ${targetPath}`);
 }
+
