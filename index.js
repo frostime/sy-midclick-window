@@ -3,7 +3,7 @@
  * @Author       : frostime
  * @Date         : 2023-11-14 12:02:16
  * @FilePath     : /index.js
- * @LastEditTime : 2024-07-16 11:47:44
+ * @LastEditTime : 2024-07-18 19:58:22
  * @Description  : A minimal plugin for SiYuan, relies only on nothing but pure index.js.
  *                 Refer to https://docs.siyuan-note.club/zh-Hans/guide/plugin/five-minutes-quick-start.html
  */
@@ -49,7 +49,15 @@ const onMouseClick = (e) => {
     if (e.button !== 1) {
         return;
     }
-    const blockId = getBlockID(e);
+    let blockId = null;
+    let target = e.target; //HTMLElement
+    let docBtn = target.closest('.protyle-breadcrumb > button[data-type="doc"]');
+    if (docBtn) {
+        let span = docBtn.parentNode.querySelector('.protyle-breadcrumb__bar > span[data-node-id]');
+        blockId = span?.dataset?.nodeId;
+    } else {
+        blockId = getBlockID(e);
+    }
     if (blockId) {
         e.preventDefault();
         e.stopPropagation();
